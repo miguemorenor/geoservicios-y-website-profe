@@ -1,5 +1,5 @@
 // Crear el mapa centrado en el departamento de La Guajira
-const map = L.map('map').setView([11.35, -72.5], 9);
+const map = L.map('map').setView([11.35, -72.5], 10);
 
 // Agregar capa base de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -95,12 +95,12 @@ baseMaps["OpenStreetMap"].addTo(map);
 
 // ============================================================
 // Capas detalladas de La Guajira (cartografía base IGAC/DANE)
-// Datos recortados por departamento en datos/44_LA_GUAJIRA/.
+// Datos recortados por departamento en datos/41_Huila/.
 // Se cargan de forma diferida (lazy): solo se descarga el GeoJSON
 // cuando el usuario activa la capa en el control, porque algunas
 // (Drenaje, Curvas de Nivel, Vías) pesan varios MB.
 // ============================================================
-const guajiraDataDir = 'https://epiragauta.github.io/geoservicios_y_websites/webapp/datos/44_LA_GUAJIRA/';
+const guajiraDataDir = './datos/44_LA_GUAJIRA/';
 
 const capasGuajira = [
     {
