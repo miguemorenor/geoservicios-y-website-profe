@@ -50,6 +50,7 @@ fetch(departamentosWFSUrl)
         // Extensión de La Guajira
         const guajiraBounds = departamentosGeoJSON.getBounds();
 
+               
         // Restringir las teselas de ambos WMS a la extensión de La Guajira
         departamentosWMS.options.bounds = guajiraBounds;
         departamentosWMS.redraw();
@@ -228,12 +229,7 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-    const layer = e.target;
-    layer.setStyle({
-        weight: 2,
-        color: '#232323',
-        fillOpacity: 0.5
-    });
+    departamentosGeoJSON.resetStyle(e.target);
 }
 
 function zoomToFeature(e) {
