@@ -1,5 +1,5 @@
-// Crear el mapa centrado en el departamento de La Guajira
-const map = L.map('map').setView([11.35, -72.5], 10);
+// Vista inicial de Antioquia
+const map = L.map('map').setView([6.8, -75.5], 8);
 
 // Agregar capa base de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -11,7 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const geoserverUrl = 'https://geoportal.dane.gov.co/mparcgis/services/MGN2024/Serv_CapasMGN_2024/MapServer/WMSServer';
 
 // Código DANE del departamento a mostrar: La Guajira
-const GUAJIRA_CCDGO = '44';
+const ANTIOQUIA_CCDGO = '05';
 
 // Agregar capa WMS de departamentos
 // Nota: el servicio es un ArcGIS MapServer WMS y no admite filtros por atributo (CQL),
@@ -33,7 +33,7 @@ fetch(departamentosWFSUrl)
     .then(data => {
         // Crear capa GeoJSON (solo La Guajira)
         departamentosGeoJSON = L.geoJSON(data, {
-            filter: feature => feature.properties.dpto_ccdgo === GUAJIRA_CCDGO,
+            filter: feature => feature.properties.dpto_ccdgo === ANTIOQUIA_CCDGO,
             style: {
                 color: '#232323',
                 weight: 2,
@@ -100,43 +100,56 @@ baseMaps["OpenStreetMap"].addTo(map);
 // cuando el usuario activa la capa en el control, porque algunas
 // (Drenaje, Curvas de Nivel, Vías) pesan varios MB.
 // ============================================================
-const guajiraDataDir = './datos/44_LA_GUAJIRA/';
+const antioquiaDataDir = './datos/05_ANTIOQUIA/';
 
-const capasGuajira = [
+const capasAntioquia = [
     {
-        file: 'Administrativo_P.geojson', label: 'Topónimos administrativos',
+        file: 'Administrativo_P.geojson',
+        label: 'Topónimos administrativos',
         tipo: 'punto', color: '#c62828', radio: 4
     },
     {
-        file: 'Construccion_P.geojson', label: 'Construcciones',
+        file: 'Construccion_P.geojson',
+        label: 'Construcciones',
         tipo: 'punto', color: '#6d4c41', radio: 3
     },
     {
-        file: 'Costero_Insular.geojson', label: 'Costero / insular',
-        tipo: 'punto', color: '#00838f', radio: 4
+        file: 'Via.geojson',
+        label: 'Vías',
+        tipo: 'linea',
+        estilo: { color: '#e65100', weight: 1.5 }
     },
     {
-        file: 'Via.geojson', label: 'Vías',
-        tipo: 'linea', estilo: { color: '#e65100', weight: 1.5 }
+        file: 'Drenaje_Sencillo.geojson',
+        label: 'Drenaje sencillo',
+        tipo: 'linea',
+        estilo: { color: '#1e88e5', weight: 1 }
     },
     {
-        file: 'Drenaje_Sencillo.geojson', label: 'Drenaje sencillo',
-        tipo: 'linea', estilo: { color: '#1e88e5', weight: 1 }
+        file: 'Curva_Nivel.geojson',
+        label: 'Curvas de nivel',
+        tipo: 'linea',
+        estilo: { color: '#8d6e63', weight: 0.8 }
     },
     {
-        file: 'Curva_Nivel.geojson', label: 'Curvas de nivel',
-        tipo: 'linea', estilo: { color: '#8d6e63', weight: 0.8 }
+        file: 'Laguna.geojson',
+        label: 'Lagunas',
+        tipo: 'poligono',
+        estilo: {
+            color: '#0277bd', weight: 1,
+            fillColor: '#4fc3f7', fillOpacity: 0.5
+        }
     },
     {
-        file: 'Laguna.geojson', label: 'Lagunas',
-        tipo: 'poligono', estilo: { color: '#0277bd', weight: 1, fillColor: '#4fc3f7', fillOpacity: 0.5 }
-    },
-    {
-        file: 'Bosque.geojson', label: 'Bosques',
-        tipo: 'poligono', estilo: { color: '#1b5e20', weight: 1, fillColor: '#66bb6a', fillOpacity: 0.4 }
+        file: 'Bosque.geojson',
+        label: 'Bosques',
+        tipo: 'poligono',
+        estilo: {
+            color: '#1b5e20', weight: 1,
+            fillColor: '#66bb6a', fillOpacity: 0.4
+        }
     }
 ];
-
 // Construye el contenido del popup a partir de los atributos más relevantes
 function popupGuajira(props) {
     const campos = [
@@ -157,7 +170,7 @@ function popupGuajira(props) {
 
 // Carga (una sola vez) el GeoJSON de una capa dentro de su layerGroup
 function cargarCapaGuajira(cfg) {
-    fetch(guajiraDataDir + cfg.file)
+    fetch(antioquiaDataDir + cfg.file)
         .then(response => response.json())
         .then(data => {
             const capa = L.geoJSON(data, {
@@ -181,7 +194,7 @@ function cargarCapaGuajira(cfg) {
 }
 
 // Registrar cada capa como overlay con carga diferida
-capasGuajira.forEach(cfg => {
+capasAntioquia.forEach(cfg => {
     cfg._group = L.layerGroup();
     cfg._loaded = false;
     controlLayer.addOverlay(cfg._group, cfg.label);
@@ -189,7 +202,7 @@ capasGuajira.forEach(cfg => {
 
 // Al activar una capa por primera vez, descargar su GeoJSON
 map.on('overlayadd', function (e) {
-    const cfg = capasGuajira.find(c => c._group === e.layer);
+    const cfg = capasAntioquia.find(c => c._group === e.layer);
     if (cfg && !cfg._loaded) {
         cfg._loaded = true;
         cargarCapaGuajira(cfg);
@@ -249,7 +262,7 @@ const info = L.control({position: 'topleft'});
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info');
     this._div.innerHTML = `
-        <h4>La Guajira - Servicios Geográficos</h4>
+        <h4>Antioquia - Servicios Geográficos</h4>
         <p>Visualización del departamento y sus municipios</p>
         <p><small>Datos: DANE | Servidor: GeoServer</small></p>
     `;
@@ -304,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Marcador de Riohacha (capital de La Guajira)
-const riohachaMarker = L.marker([11.5444, -72.9072])
+// Marcador de Medellin (capital de La Antioquia)
+const rmedellinMarker = L.marker([6.2442, -75.5812])
     .addTo(map)
-    .bindPopup('<b>Riohacha</b><br>Capital de La Guajira');
+    .bindPopup('<b>Medellin</b><br>Capital de Antioquia');
