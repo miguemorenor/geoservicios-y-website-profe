@@ -1,5 +1,5 @@
 // Crear el mapa centrado en el departamento de La Guajira
-const map = L.map('map').setView([11.35, -72.5], 8);
+const map = L.map('map').setView([11.35, -72.5], 9);
 
 // Agregar capa base de OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
