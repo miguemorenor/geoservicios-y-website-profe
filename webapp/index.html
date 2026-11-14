@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colombia - Departamentos y Municipios</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <title>La Guajira - Servicios Geográficos</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 
     <style>
         * {
@@ -27,7 +31,7 @@
             padding: 10px;
             font: 14px/16px Arial, sans-serif;
             background: white;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
         }
 
@@ -50,18 +54,36 @@
         }
 
         .leaflet-control-layers {
-            border: 2px solid rgba(0,0,0,0.2);
+            border: 2px solid rgba(0, 0, 0, 0.2);
             border-radius: 5px;
+        }
+
+        .search-control {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-control input {
+            padding: 6px;
+            width: 170px;
+        }
+
+        .search-control button {
+            padding: 6px;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
     <div id="map"></div>
 
-    <script src="js/app.js?v=3"></script>
+    <!-- Primero cargar Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Nuestra aplicación -->
-    <script src="js/app.js"></script>
-    
+    <!-- Después cargar la aplicación, una sola vez -->
+    <script src="js/app.js?v=8"></script>
 </body>
 </html>
