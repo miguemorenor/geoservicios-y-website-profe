@@ -1,0 +1,5 @@
+Este ejercicio se realizó siguiendo paso a paso las indicaciones y el código de referencia del profesor, utilizando los datos suministrados durante el curso. Su finalidad fue comprender mejor el procedimiento de creación de un visor geográfico web, desde la organización de los archivos hasta la incorporación de capas y su publicación en GitHub Pages.
+
+A partir de esta base, se realizaron ajustes para visualizar el departamento del Guiajira y Antiqoquia.
+
+El trabajo tiene una finalidad académica y de aprendizaje. Se reconoce al profesor como fuente de la metodología, el código de referencia y los materiales compartidos; la autoría original de los datos corresponde a las entidades productoras indicadas en sus metadatos.
